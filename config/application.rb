@@ -37,7 +37,20 @@ module Xeroimporter
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password]
+    config.filter_parameters += [:password, :password_confirmation]
+    
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.perform_deliveries = true
+    # set delivery method to :smtp, :sendmail or :test
+    #config.action_mailer.delivery_method = :smtp
+    ActionMailer::Base.delivery_method = :smtp
+    ActionMailer::Base.smtp_settings = {
+      :address => "smtp.scrum2b.com", # ENV['SMTP_ADDRESS'], #
+      :port => 25, # ENV['SMTP_PORT'], #
+      :user_name => "test@scrum2b.com", # ENV['SMTP_USERNAME'], #
+      :password => "123456", # ENV['SMTP_PASSWORD'],
+      :authentication => :login #:plain
+    }
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true

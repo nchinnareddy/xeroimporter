@@ -1,14 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Xeroimporter</title>
+  <title>Xero Importer</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-<%= yield %>
+    <!--div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Project name</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div-->
+    
+    <div class="container"> 
+
+		<div class="header">
+		  <h1>Xero <small>importer</small></h1>
+		</div>
+		<div>   	
+			<p class="notice"><%= notice %></p>
+			<p class="alert"><%= alert %></p>
+        </div>
+       	<div class="content">
+			<%= yield %>
+		</div>
+		<div class="footer">
+	      <ul>
+	        <li><a href="/about">About</a></li>
+	        <li><a href="/privacy">Privacy</a></li>
+	        <li><a href="/faq">FAQ</a></li>
+	        <li><a href="/contact">Contact</a></li>
+	      </ul>
+	      <p>
+	        © Company Name. Made with <a target="_blank" href="http://twitter.github.com/bootstrap/">Twitter Bootstrap.</a>
+	      </p>
+	    </div>
+    </div>
 
 </body>
 </html>
