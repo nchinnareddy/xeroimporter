@@ -3,6 +3,10 @@ Xeroimporter::Application.routes.draw do
   devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions"}
   devise_for :users, :path_names => { :sign_in => 'login', :sign_out => 'logout', :sign_up => 'register' }
   
+  devise_scope :user do
+    match "/logout" => "devise/sessions#destroy"
+  end
+  
   #devise_scope :users do
   #  match "/login" => "devise/sessions#new" # Add a custom sign in route for user sign in
   #  match "/logout" => "devise/sessions#destroy" # Add a custom sing out route for user sign out

@@ -11,6 +11,7 @@ end
 
 module Xeroimporter
   class Application < Rails::Application
+    Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
