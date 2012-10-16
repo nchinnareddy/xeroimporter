@@ -1,5 +1,5 @@
 require File.expand_path('../boot', __FILE__)
-
+require 'tlsmail'
 require 'rails/all'
 
 if defined?(Bundler)
@@ -45,11 +45,12 @@ module Xeroimporter
     #config.action_mailer.delivery_method = :smtp
     ActionMailer::Base.delivery_method = :smtp
     ActionMailer::Base.smtp_settings = {
-      :address => "smtp.scrum2b.com", # ENV['SMTP_ADDRESS'], #
-      :port => 25, # ENV['SMTP_PORT'], #
-      :user_name => "test@scrum2b.com", # ENV['SMTP_USERNAME'], #
-      :password => "123456", # ENV['SMTP_PASSWORD'],
-      :authentication => :login #:plain
+      :address => 'smtp.gmail.com',
+      :port => "587",
+      :domain => 'smtp.gmail.com',
+      :authentication => :login,
+      :user_name => "it.hanoi.dev@gmail.com",
+      :password => "hanoiit22092010"
     }
 
     # Enable escaping HTML in JSON.
