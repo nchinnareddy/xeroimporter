@@ -27,7 +27,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: xero_importer_prod
+  database: xero_importer_pro
   pool: 5
   host: localhost
   username: scrum2b

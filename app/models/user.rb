@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   validate :email, :email => true, :uniqueness => true
   validate :login, :presence => true, :if => :new_record? 
   validate :username, :uniqueness => true
-  validates_format_of :username, :with => /[\w \.\-@]+/
+  validates_format_of :username, :with => /[\w \.\-@]+/, :if => :username
 
   validates_length_of :password, :within => 6..255
   validates_format_of :password, :with => /[\w \.\-@]+/
