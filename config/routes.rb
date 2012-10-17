@@ -13,7 +13,7 @@ Xeroimporter::Application.routes.draw do
   #  match "/login/forgot-password" => "devise/passwords#new" # Add a Custom Route for Forgot password
   #  match "/login/restore-password" => "devise/passwords#create" # Add a Custom Route for Forgot password
   #end
-  resources :customers
+  match "/customer" => "customers#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
