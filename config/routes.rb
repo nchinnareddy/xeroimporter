@@ -6,14 +6,17 @@ Xeroimporter::Application.routes.draw do
   devise_scope :user do
     match "/logout" => "devise/sessions#destroy"
   end
-  
+  match "/customer/index" => "customers#index"
+  match "/payment/index" => "payments#index"
+  match "/invoice/index" => "invoices#index"
+  match "/supplier/index" => "suppliers#index"
   #devise_scope :users do
   #  match "/login" => "devise/sessions#new" # Add a custom sign in route for user sign in
   #  match "/logout" => "devise/sessions#destroy" # Add a custom sing out route for user sign out
   #  match "/login/forgot-password" => "devise/passwords#new" # Add a Custom Route for Forgot password
   #  match "/login/restore-password" => "devise/passwords#create" # Add a Custom Route for Forgot password
   #end
-  match "/customer" => "customers#index"
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
