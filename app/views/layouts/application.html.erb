@@ -31,6 +31,12 @@
             <li class="active"><a href="/   ">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
+             <% if current_user %>
+            <li><%= link_to "Payments", '/payment/index'%></li>
+            <li><%= link_to "Invoices", '/invoice/index'%></li>
+            <li><%= link_to "Suppliers", '/supplier/index'%></li>
+            <li><%= link_to "Custommers", '/customer/index'%></li>
+            <%end%>
           </ul>
           <ul class="nav pull-right">
             <% if user_signed_in? %>
@@ -41,6 +47,22 @@
                 <li><a href="/users/sign_up">Signup</a></li>
               <% end %>
             <% end %>
+              <% if current_user %>
+<!--               <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> <i class="icon-user"></i> <%= current_user.email %> <span class="caret"></span> </a> -->
+              <ul class="dropdown-menu">
+                <li>
+                  <%= link_to "Profile", '/profile' %>
+                </li>
+                <% if current_user.admin? %>
+                <li class="divider"></li>
+                <li>
+                  <%= link_to "Admin", '/admin' %>
+                </li>
+                <% end %>
+
+              </ul>
+            </div>
+             <% end %>
           </ul>
         </div>
       </div>

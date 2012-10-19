@@ -10,6 +10,7 @@ Xeroimporter::Application.routes.draw do
   match "/payment/index" => "payments#index"
   match "/invoice/index" => "invoices#index"
   match "/supplier/index" => "suppliers#index"
+  #match "/registrations/comfirm_mail" => "registrations#comfirm_mail"
   #devise_scope :users do
   #  match "/login" => "devise/sessions#new" # Add a custom sign in route for user sign in
   #  match "/logout" => "devise/sessions#destroy" # Add a custom sing out route for user sign out
