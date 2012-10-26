@@ -7,7 +7,7 @@ gem 'rails', '3.2.7'
 
 gem 'pg'
 gem 'devise'
-#gem 'xeroizer', '2.15.1'
+gem 'xeroizer', '2.15.1'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -29,6 +29,7 @@ gem "heroku"
 group :production do
   gem 'thin'
 end
+gem 'omniauth-oauth2'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
