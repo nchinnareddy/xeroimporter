@@ -11,7 +11,7 @@ class XeroapiController < ApplicationController
   XERO_API_SECR_KEY =  "UU3SGCUBD3UIL7OS4WTOT5F2X14MWL"
   public
   def new
-      request_token = @xero_client.request_token(:oauth_callback => 'http://192.168.1.26:3000/xeroapi/new')
+      request_token = @xero_client.request_token(:oauth_callback => 'http://xeroimporter.herokuapp.com/xeroapi/new')
       session[:request_token] = request_token.token
       session[:request_secret] = request_token.secret
 
