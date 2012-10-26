@@ -8,5 +8,20 @@
   <th>Date Due</th>
   <th>Credit Notes</th>
   <th>TotalDiscount</th>
-  
+  <% @invoices.each do |invoice|%>
+  <tr>
+    <td><%= invoice.contact.contact_name%>
+       </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td> <%= invoice.invoice_number%> </td>
+    <td><% invoice.payments.each do|payment|%>
+    <%= payment.updated_at%>
+    <%end%></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <%end%>
+
 </table>

@@ -1,6 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 require 'tlsmail'
 require 'rails/all'
+require 'rubygems'
+require 'xeroizer'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line

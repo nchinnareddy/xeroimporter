@@ -1,6 +1,14 @@
 <h2 align="center">Customers</h2>
 <table class="table table-bordered">
   <th>Customer</th>
-  <th>Purchase Orders</th>
+  <th>Invoices </th>
   <th>Payments</th>
+  <% @customers.each do |customer|%>
+  <tr>
+    <td> <%= customer.contact_name%> </td>
+    <td><% customer.invoices.each do |invoice|%>
+    <%= invoice.invoice_number%> </td>
+    <%end%>
+  </tr>
+  <%end%>
 </table>

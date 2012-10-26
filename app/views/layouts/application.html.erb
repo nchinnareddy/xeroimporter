@@ -31,12 +31,12 @@
             <li class="active"><a href="/   ">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
-             <% if current_user %>
+
             <li><%= link_to "Payments", '/payment/index'%></li>
             <li><%= link_to "Invoices", '/invoice/index'%></li>
             <li><%= link_to "Suppliers", '/supplier/index'%></li>
             <li><%= link_to "Custommers", '/customer/index'%></li>
-            <%end%>
+
           </ul>
           <ul class="nav pull-right">
             <% if user_signed_in? %>
