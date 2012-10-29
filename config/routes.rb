@@ -2,7 +2,7 @@ Xeroimporter::Application.routes.draw do
 
   devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions"}
   devise_for :users, :path_names => { :sign_in => 'login', :sign_out => 'logout', :sign_up => 'register' }
-  
+
   devise_scope :user do
     match "/logout" => "devise/sessions#destroy"
   end
@@ -13,6 +13,9 @@ Xeroimporter::Application.routes.draw do
   match "/xeroapi/new" => "xeroapi#new"
   match "/xeroapi/create" => "xeroapi#create"
   match "/xeroapi/destroy" => "xeroapi#destroy"
+  match "/xeroapi/synchronize" => "xeroapi#synchronize"
+  post "/xeroapi/getcode" => "xeroapi#get_xero"
+  get "xeroapi/getcode" => "xeroapi#get_code"
   #match "/registrations/comfirm_mail" => "registrations#comfirm_mail"
   #devise_scope :users do
   #  match "/login" => "devise/sessions#new" # Add a custom sign in route for user sign in
@@ -20,7 +23,7 @@ Xeroimporter::Application.routes.draw do
   #  match "/login/forgot-password" => "devise/passwords#new" # Add a Custom Route for Forgot password
   #  match "/login/restore-password" => "devise/passwords#create" # Add a Custom Route for Forgot password
   #end
-  
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -73,9 +76,9 @@ Xeroimporter::Application.routes.draw do
   # root :to => 'welcome#index'
   root :to => "home#index"
 
-  # See how all your routes lay out with "rake routes"
+# See how all your routes lay out with "rake routes"
 
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+# This is a legacy wild controller route that's not recommended for RESTful applications.
+# Note: This route will make all actions in every controller accessible via GET requests.
+# match ':controller(/:action(/:id))(.:format)'
 end

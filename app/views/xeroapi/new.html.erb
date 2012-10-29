@@ -1,0 +1,9 @@
+<h2 align="left"> Synchronize</h2>
+<div align="center"class="control-group">
+ <%= form_tag :action => 'synchronize' %>
+  <input type="text" name="oauth_verifier" class="input-large" />
+  <%= link_to "Get_code",{ :action => 'get_xero'},:target => '_blank'%>
+  <br />
+  <%= submit_tag "Sync", :class => "btn btn-large btn-primary"%>
+  <% form_tag%>
+</div>
