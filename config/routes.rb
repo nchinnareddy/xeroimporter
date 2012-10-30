@@ -16,6 +16,7 @@ Xeroimporter::Application.routes.draw do
   match "/xeroapi/synchronize" => "xeroapi#synchronize"
   post "/xeroapi/getcode" => "xeroapi#get_xero"
   get "xeroapi/getcode" => "xeroapi#get_code"
+  match "/xeroapi/index" => "xeroapi#index"
   #match "/registrations/comfirm_mail" => "registrations#comfirm_mail"
   #devise_scope :users do
   #  match "/login" => "devise/sessions#new" # Add a custom sign in route for user sign in
