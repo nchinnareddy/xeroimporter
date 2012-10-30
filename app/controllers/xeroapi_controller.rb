@@ -13,12 +13,15 @@ class XeroapiController < ApplicationController
   end
 
   def synchronize
+    contacts = Contact.new
     @xero_client = session[:xero_client]
     Rails.logger.info "xero_clientsession #{@xero_client.to_s}"
     @xero_client.authorize_from_request(session[:request_token],session[:request_secret],:oauth_verifier => params[:oauth_verifier])
     contacts = @xero_client.Contact.all(:order => 'contact_name')
     Rails.logger.info "Contacts: #{contacts.to_s}"
+    reset_session
     redirect_to "/xeroapi/index"
+    
   end
 
   def destroy
