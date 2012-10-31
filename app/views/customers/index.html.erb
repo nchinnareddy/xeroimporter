@@ -3,7 +3,6 @@
   <th>Customer</th>
   <th>FistName</th>
   <th>LastName</th>
-  <th>Phone</th>
   <th>Contact status </th>
   <th>Update_at</th>
 
@@ -13,20 +12,20 @@
     <td><%= contact.name%></td>
     <td><%= contact.first_name%></td>
     <td><%= contact.last_name%></td>
-    <td><%= contact.phones.each do |phone|%>
-      <%if phone.type == "mobile"%>
-    <table>
-      <tr>
-        <td>
-          <%= phone.country_code%>
-          <%= phone.area_code%>
-          <%= phone.number%></td>
-
-        <%end%>
-      </tr>
-    </table>
-  <%end%>
-    </td>
+      <!-- <td><%= contact.phones.each do |phone|%>
+        <%if phone.type = "mobile"%>
+      <table>
+        <tr>
+          <td>
+            <%= phone.country_code%>
+            <%= phone.area_code%>
+            <%= phone.number%></td>
+  
+          <%end%>
+        </tr>
+      </table>
+    <%end%>
+      </td> -->
     <td><%= contact.contact_status%></td>
     <td><%= contact.updated_date_utc%></td>
   </tr>
