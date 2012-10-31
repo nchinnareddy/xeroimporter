@@ -27,7 +27,7 @@ class XeroapiController < ApplicationController
     session[:contacts] = @contacts
     session[:payments] = @payments
     session[:invoices] = @invoices
-    Rails.logger.info "Payment: #{@payments.to_s}"
+    Rails.logger.info "Invoices #{@invoices.to_s}"
     redirect_to "/xeroapi/index"
       
   end

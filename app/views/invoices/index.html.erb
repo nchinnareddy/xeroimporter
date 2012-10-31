@@ -1,24 +1,23 @@
 <h2 align="center">Invoices</h2>
 <table class="table table-bordered">
-  <th>Customers</th>
-  <th>Invoices</th>
+  <th>InvoiceID</th>
+  <th>InvoiceNumber </th>
   <th>Payments</th>
   <th>Suppliers</th>
-  <th>Invoice Number</th>
-  <th>Date Due</th>
-  <th>Credit Notes</th>
-  <th>TotalDiscount</th>
+  <th>Date</th>
+  <th>CurrencyRate</th>
+  <th>Amount</th>
+  <th>Reference</th>
   <% @invoices.each do |invoice|%>
   <tr>
-    <td><%= invoice.id%> </td>
-    <td><%invoice.invoice_id%></td>
+    <td><%= invoice.invoice_id%> </td>
+    <td><%= invoice.invoice_number%></td>
     <td></td>
     <td></td>
-    <td> <%= invoice.invoice_number%> </td>
-    <td></td>
-    <td><%= invoice.updated_date_utc%></td>
-    <td></td>
-    <td></td>
+    <td><td><%= invoice.date%></td> </td>
+    <td><%= invoice.currency_code%></td>
+    <td><%= invoice.amount_paid%></td>
+    <td><%= invoice.reference%></td>
   </tr>
   <%end%>
 
