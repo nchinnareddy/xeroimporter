@@ -10,15 +10,13 @@
   <th>TotalDiscount</th>
   <% @invoices.each do |invoice|%>
   <tr>
-    <td><%= invoice.contact.contact_name%>
-       </td>
-    <td></td>
+    <td><%= invoice.id%> </td>
+    <td><%invoice.invoice_id%></td>
     <td></td>
     <td></td>
     <td> <%= invoice.invoice_number%> </td>
-    <td><% invoice.payments.each do|payment|%>
-    <%= payment.updated_at%>
-    <%end%></td>
+    <td></td>
+    <td><%= invoice.updated_date_utc%></td>
     <td></td>
     <td></td>
   </tr>

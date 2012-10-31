@@ -1,14 +1,15 @@
+
 <h2 align="center">Customers</h2>
 <table class="table table-bordered">
   <th>Customer</th>
-  <th>Invoices </th>
-  <th>Payments</th>
-  <% @customers.each do |customer|%>
+  <th>Email </th>
+  <th>Update_at</th>
+<% @contacts.each do |contact|%>
   <tr>
-    <td> <%= customer.contact_name%> </td>
-    <td><% customer.invoices.each do |invoice|%>
-    <%= invoice.invoice_number%> </td>
-    <%end%>
+    <td><%= contact.name%></td>
+      <td><%= contact.email_address%></td>
+           <td><%= contact.updated_date_utc%></td>
+      
   </tr>
   <%end%>
 </table>
