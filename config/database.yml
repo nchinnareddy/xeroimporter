@@ -9,8 +9,8 @@ development:
   database: xero_importer_dev
   pool: 5
   host: localhost
-  username: scrum2b
-  password: '123456'
+  username: chinna
+  password: 'startup'
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -30,5 +30,5 @@ production:
   database: xero_importer_pro
   pool: 5
   host: localhost
-  username: scrum2b
-  password: '123456'
+  username: deployer
+  password: 'startup'
