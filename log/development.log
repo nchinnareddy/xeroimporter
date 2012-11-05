@@ -1,0 +1,1350 @@
+Connecting to database specified by database.yml
+  [1m[36m (0.5ms)[0m  [1mSHOW TABLES[0m
+  [1m[35m (118.3ms)[0m  CREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL) ENGINE=InnoDB
+  [1m[36m (0.9ms)[0m  [1mSHOW KEYS FROM `schema_migrations`[0m
+  [1m[35m (235.0ms)[0m  CREATE UNIQUE INDEX `unique_schema_migrations` ON `schema_migrations` (`version`)
+  [1m[36m (0.6ms)[0m  [1mSHOW TABLES[0m
+Connecting to database specified by database.yml
+  [1m[36m (0.6ms)[0m  [1mSHOW TABLES[0m
+Connecting to database specified by database.yml
+  [1m[36m (0.6ms)[0m  [1mSHOW TABLES[0m
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (0.4ms)[0m  [1mSELECT `schema_migrations`.`version` FROM `schema_migrations` [0m
+Migrating to DeviseCreateUsers (20121015090615)
+  [1m[35m (231.4ms)[0m  CREATE TABLE `users` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `email` varchar(255) DEFAULT '' NOT NULL, `username` varchar(255), `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` int(11) DEFAULT 0, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `confirmation_token` varchar(255), `confirmed_at` datetime, `confirmation_sent_at` datetime, `unlock_token` varchar(255), `locked_at` datetime, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB
+  [1m[36m (299.1ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_email` ON `users` (`email`)[0m
+  [1m[35m (299.4ms)[0m  CREATE UNIQUE INDEX `index_users_on_username` ON `users` (`username`)
+  [1m[36m (310.4ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_reset_password_token` ON `users` (`reset_password_token`)[0m
+  [1m[35m (298.5ms)[0m  CREATE UNIQUE INDEX `index_users_on_confirmation_token` ON `users` (`confirmation_token`)
+  [1m[36m (480.1ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_unlock_token` ON `users` (`unlock_token`)[0m
+  [1m[35m (64.9ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20121015090615')
+Migrating to CreatePayments (20121017082421)
+  [1m[36m (206.1ms)[0m  [1mCREATE TABLE `payments` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `invoice_id` varchar(255), `account_id` varchar(255), `date_payment` datetime, `currency_rate` varchar(255), `amount` decimal, `reference` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (65.4ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20121017082421')
+Migrating to CreateInvoices (20121017082505)
+  [1m[36m (205.6ms)[0m  [1mCREATE TABLE `invoices` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `contact_id` varchar(255), `due_date` datetime, `issued_date` datetime, `invoice_number` varchar(255), `status` varchar(255), `sent_to_contact` tinyint(1), `amount_due` decimal, `amount_paid` decimal, `amount_credited` decimal, `update_date_utc` datetime, `credit_notes` varchar(255), `total_discount` decimal, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (64.9ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20121017082505')
+Migrating to CreateContacts (20121017082544)
+  [1m[36m (203.6ms)[0m  [1mCREATE TABLE `contacts` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `contact_number` varchar(255), `contact_status` varchar(255), `contact_name` varchar(10000), `fist_name` varchar(255), `last_name` varchar(255), `email_address` varchar(500), `skype_name` varchar(255), `bank_account` varchar(255), `address` varchar(255), `phone` varchar(255), `is_supplier` tinyint(1), `is_customer` tinyint(1), `default_currency` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (53.5ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20121017082544')
+Migrating to CreateAccounts (20121017115154)
+  [1m[36m (172.2ms)[0m  [1mCREATE TABLE `accounts` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `code` varchar(255), `name` varchar(255), `status` varchar(255), `type` varchar(255), `description` varchar(255), `tax_type` varchar(255), `enable_payment` tinyint(1), `show_expense_claims` tinyint(1), `currency_code` varchar(255), `report_code` varchar(255), `report_codename` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (54.2ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20121017115154')
+Migrating to AddUsercomfirmMail (20121018081715)
+  [1m[36m (266.3ms)[0m  [1mALTER TABLE `users` ADD `unconfirmed_email` varchar(255)[0m
+  [1m[35m (280.4ms)[0m  ALTER TABLE `users` ADD `is_admin` tinyint(1)
+  [1m[36m (255.8ms)[0m  [1mALTER TABLE `invoices` DROP `contact_id`[0m
+  [1m[35m (266.9ms)[0m  ALTER TABLE `invoices` ADD `contact_id` int(11)
+  [1m[36m (256.3ms)[0m  [1mALTER TABLE `payments` DROP `invoice_id`[0m
+  [1m[35m (256.3ms)[0m  ALTER TABLE `payments` DROP `account_id`
+  [1m[36m (278.4ms)[0m  [1mALTER TABLE `payments` ADD `invoice_id` int(11)[0m
+  [1m[35m (280.1ms)[0m  ALTER TABLE `payments` ADD `account_id` int(11)
+  [1m[36m (42.9ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20121018081715')[0m
+Migrating to FixColumnName (20121030111926)
+  [1m[35m (64.6ms)[0m  DROP TABLE `contacts`
+  [1m[36m (153.9ms)[0m  [1mCREATE TABLE `contacts` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `contact_id` varchar(255), `contact_number` varchar(255), `contact_status` varchar(255), `name` varchar(255), `tax_number` varchar(255), `bank_account_details` varchar(255), `accounts_receivable_tax_type` varchar(255), `accounts_payable_tax_type` varchar(255), `first_name` varchar(255), `last_name` varchar(255), `email_address` varchar(255), `skype_user_name` varchar(255), `contact_groups` varchar(255), `default_currency` varchar(255), `updated_date_utc` datetime, `is_supplier` tinyint(1), `is_customer` tinyint(1), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (43.1ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20121030111926')
+Migrating to FixTablePayments (20121030123123)
+  [1m[36m (54.6ms)[0m  [1mDROP TABLE `payments`[0m
+  [1m[35m (132.8ms)[0m  CREATE TABLE `payments` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `invoice_id` varchar(255), `account_id` varchar(255), `payment_id` varchar(255), `date` date, `amount` decimal, `currency_rate` decimal, `payment_type` varchar(255), `status` varchar(255), `reference` varchar(255), `updated_date_utc` datetime) ENGINE=InnoDB
+  [1m[36m (42.6ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20121030123123')[0m
+Migrating to FixTableInvoices (20121030123719)
+  [1m[35m (64.4ms)[0m  DROP TABLE `invoices`
+  [1m[36m (130.3ms)[0m  [1mCREATE TABLE `invoices` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `invoice_id` varchar(255), `contact_id` varchar(255), `invoice_number` varchar(255), `reference` varchar(255), `branding_theme_id` varchar(255), `url` varchar(255), `type` varchar(255), `date` date, `due_date` date, `status` varchar(255), `line_amount_types` varchar(255), `sub_total` decimal, `total_tax` decimal, `total` decimal, `amount_due` decimal, `amount_paid` decimal, `amount_credited` decimal, `updated_date_utc` datetime, `currency_code` varchar(255), `fully_paid_on_date` datetime, `sent_to_contact` tinyint(1)) ENGINE=InnoDB[0m
+  [1m[35m (54.1ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20121030123719')
+Migrating to FixTableAccounts (20121030124218)
+  [1m[36m (65.6ms)[0m  [1mDROP TABLE `accounts`[0m
+  [1m[35m (152.9ms)[0m  CREATE TABLE `accounts` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `account_id` varchar(255), `code` varchar(255), `name` varchar(255), `type` varchar(255), `class` varchar(255), `status` varchar(255), `currency_code` varchar(255), `tax_type` varchar(255), `description` varchar(255), `system_account` varchar(255), `enable_payments_to_account` tinyint(1)) ENGINE=InnoDB
+  [1m[36m (54.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20121030124218')[0m
+Migrating to AddSessionsTable (20121031031104)
+  [1m[35m (139.1ms)[0m  CREATE TABLE `sessions` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `session_id` varchar(255) NOT NULL, `data` text, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB
+  [1m[36m (268.0ms)[0m  [1mCREATE INDEX `index_sessions_on_session_id` ON `sessions` (`session_id`)[0m
+  [1m[35m (254.8ms)[0m  CREATE INDEX `index_sessions_on_updated_at` ON `sessions` (`updated_at`)
+  [1m[36m (42.9ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20121031031104')[0m
+  [1m[35m (0.3ms)[0m  SELECT `schema_migrations`.`version` FROM `schema_migrations` 
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 127.0.0.1 at 2012-11-05 19:53:45 +0530
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (98.5ms)
+Completed 200 OK in 491ms (Views: 487.2ms | ActiveRecord: 2.7ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /application.css - 304 Not Modified (13ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /bootstrap.css - 304 Not Modified (3ms)
+
+
+Started GET "/assets/customers.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /customers.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/home.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /home.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/invoices.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /invoices.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/payments.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /payments.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/suppliers.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /suppliers.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/xeroapi.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /xeroapi.css - 304 Not Modified (3ms)
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /bootstrap.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/customers.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /customers.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/home.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /home.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/invoices.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /invoices.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/payments.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /payments.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/suppliers.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /suppliers.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/xeroapi.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /xeroapi.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /application.js - 304 Not Modified (11ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /defaults.js - 404 Not Found (5ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:53:46 +0530
+Served asset /defaults.js - 404 Not Found (7ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-11-05 19:53:49 +0530
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (3.7ms)
+Completed 200 OK in 29ms (Views: 28.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /application.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /bootstrap.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /customers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /home.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /invoices.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /payments.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /suppliers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /xeroapi.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /bootstrap.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /customers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /home.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /invoices.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /payments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /suppliers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /xeroapi.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /defaults.js - 404 Not Found (5ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /defaults.js - 404 Not Found (7ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/payment/index" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Processing by PaymentsController#index as HTML
+  Rendered payments/index.html.erb within layouts/application (1.4ms)
+Completed 200 OK in 65ms (Views: 64.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /application.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /bootstrap.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /customers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /home.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /invoices.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /payments.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /suppliers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /xeroapi.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /bootstrap.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /customers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /home.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /invoices.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /payments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /suppliers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /xeroapi.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /defaults.js - 404 Not Found (5ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:53:50 +0530
+Served asset /defaults.js - 404 Not Found (5ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/supplier/index" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Processing by SuppliersController#index as HTML
+  Rendered suppliers/index.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 79ms (Views: 77.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /application.css - 304 Not Modified (3ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /bootstrap.css - 304 Not Modified (1ms)
+
+
+Started GET "/assets/customers.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /customers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /home.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /invoices.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /payments.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /suppliers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /xeroapi.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /bootstrap.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /customers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /home.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /invoices.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /payments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /suppliers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /xeroapi.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /application.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /defaults.js - 404 Not Found (5ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:53:51 +0530
+Served asset /defaults.js - 404 Not Found (7ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/invoice/index" for 127.0.0.1 at 2012-11-05 19:53:52 +0530
+Processing by InvoicesController#index as HTML
+  Rendered invoices/index.html.erb within layouts/application (60.3ms)
+Completed 500 Internal Server Error in 96ms
+
+ActionView::Template::Error (undefined method `each' for nil:NilClass):
+    8:   <th>CurrencyRate</th>
+    9:   <th>Amount</th>
+    10:   <th>Reference</th>
+    11:   <% @invoices.each do |invoice|%>
+    12:   <tr>
+    13:     <td><%= invoice.invoice_id%> </td>
+    14:     <td><%= invoice.invoice_number%></td>
+  app/views/invoices/index.html.erb:11:in `_app_views_invoices_index_html_erb__986504338_84102230'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/_trace.erb (18.4ms)
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.7ms)
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (42.7ms)
+
+
+Started GET "/payment/index" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Processing by PaymentsController#index as HTML
+  Rendered payments/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 69ms (Views: 68.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /application.css - 304 Not Modified (3ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /bootstrap.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /customers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /home.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /invoices.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /payments.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /suppliers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.css?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /xeroapi.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /bootstrap.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /customers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /home.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /invoices.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /payments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /suppliers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /xeroapi.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /defaults.js - 404 Not Found (6ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:53:58 +0530
+Served asset /defaults.js - 404 Not Found (5ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/invoice/index" for 127.0.0.1 at 2012-11-05 19:54:02 +0530
+Processing by InvoicesController#index as HTML
+  Rendered invoices/index.html.erb within layouts/application (0.8ms)
+Completed 500 Internal Server Error in 5ms
+
+ActionView::Template::Error (undefined method `each' for nil:NilClass):
+    8:   <th>CurrencyRate</th>
+    9:   <th>Amount</th>
+    10:   <th>Reference</th>
+    11:   <% @invoices.each do |invoice|%>
+    12:   <tr>
+    13:     <td><%= invoice.invoice_id%> </td>
+    14:     <td><%= invoice.invoice_number%></td>
+  app/views/invoices/index.html.erb:11:in `_app_views_invoices_index_html_erb__986504338_84102230'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/_trace.erb (8.5ms)
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.6ms)
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (19.9ms)
+
+
+Started GET "/supplier/index" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Processing by SuppliersController#index as HTML
+  Rendered suppliers/index.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 28ms (Views: 28.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /application.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /bootstrap.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /customers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /home.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /invoices.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /payments.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /suppliers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /xeroapi.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /bootstrap.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /customers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /home.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /invoices.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /payments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /suppliers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /xeroapi.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /defaults.js - 404 Not Found (5ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:54:07 +0530
+Served asset /defaults.js - 404 Not Found (6ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/customer/index" for 127.0.0.1 at 2012-11-05 19:54:08 +0530
+Processing by CustomersController#index as HTML
+  Rendered customers/index.html.erb within layouts/application (2.7ms)
+Completed 500 Internal Server Error in 16ms
+
+ActionView::Template::Error (undefined method `each' for nil:NilClass):
+    6:   <th>Contact status </th>
+    7:   <th>Update_at</th>
+    8: 
+    9:   <% @contacts.each do |contact|%>
+    10:   <%if contact.is_customer%>
+    11:   <tr>
+    12:     <td><%= contact.name%></td>
+  app/views/customers/index.html.erb:9:in `_app_views_customers_index_html_erb__445627159_80155630'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/_trace.erb (8.9ms)
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.5ms)
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (20.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Processing by HomeController#index as HTML
+  Rendered home/index.html.erb within layouts/application (3.6ms)
+Completed 200 OK in 29ms (Views: 28.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /application.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /bootstrap.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /customers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /home.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /invoices.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /payments.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /suppliers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /xeroapi.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /bootstrap.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /customers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /home.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /invoices.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /payments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /suppliers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /xeroapi.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /defaults.js - 404 Not Found (5ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:54:12 +0530
+Served asset /defaults.js - 404 Not Found (5ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/payment/index" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Processing by PaymentsController#index as HTML
+  Rendered payments/index.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 26ms (Views: 25.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /application.css - 304 Not Modified (2ms)
+
+
+Started GET "/assets/bootstrap.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /bootstrap.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /customers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /home.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /invoices.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /payments.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /suppliers.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.css?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /xeroapi.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /bootstrap.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/customers.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /customers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /home.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/invoices.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /invoices.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/payments.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /payments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/suppliers.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /suppliers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/xeroapi.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /xeroapi.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /defaults.js - 404 Not Found (5ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/assets/defaults.js" for 127.0.0.1 at 2012-11-05 19:54:17 +0530
+Served asset /defaults.js - 404 Not Found (6ms)
+
+ActionController::RoutingError (No route matches [GET] "/assets/defaults.js"):
+  actionpack (3.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  railties (3.2.7) lib/rails/rack/logger.rb:26:in `call_app'
+  railties (3.2.7) lib/rails/rack/logger.rb:16:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  rack (1.4.1) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.4.1) lib/rack/runtime.rb:17:in `call'
+  activesupport (3.2.7) lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  rack (1.4.1) lib/rack/lock.rb:15:in `call'
+  actionpack (3.2.7) lib/action_dispatch/middleware/static.rb:62:in `call'
+  railties (3.2.7) lib/rails/engine.rb:479:in `call'
+  railties (3.2.7) lib/rails/application.rb:220:in `call'
+  rack (1.4.1) lib/rack/content_length.rb:14:in `call'
+  railties (3.2.7) lib/rails/rack/log_tailer.rb:17:in `call'
+  thin (1.5.0) lib/thin/connection.rb:81:in `block in pre_process'
+  thin (1.5.0) lib/thin/connection.rb:79:in `catch'
+  thin (1.5.0) lib/thin/connection.rb:79:in `pre_process'
+  thin (1.5.0) lib/thin/connection.rb:54:in `process'
+  thin (1.5.0) lib/thin/connection.rb:39:in `receive_data'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run_machine'
+  eventmachine (1.0.0) lib/eventmachine.rb:187:in `run'
+  thin (1.5.0) lib/thin/backends/base.rb:63:in `start'
+  thin (1.5.0) lib/thin/server.rb:159:in `start'
+  rack (1.4.1) lib/rack/handler/thin.rb:13:in `run'
+  rack (1.4.1) lib/rack/server.rb:265:in `start'
+  railties (3.2.7) lib/rails/commands/server.rb:70:in `start'
+  railties (3.2.7) lib/rails/commands.rb:55:in `block in <top (required)>'
+  railties (3.2.7) lib/rails/commands.rb:50:in `tap'
+  railties (3.2.7) lib/rails/commands.rb:50:in `<top (required)>'
+  script/rails:6:in `require'
+  script/rails:6:in `<main>'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/invoice/index" for 127.0.0.1 at 2012-11-05 19:54:18 +0530
+Processing by InvoicesController#index as HTML
+  Rendered invoices/index.html.erb within layouts/application (0.8ms)
+Completed 500 Internal Server Error in 4ms
+
+ActionView::Template::Error (undefined method `each' for nil:NilClass):
+    8:   <th>CurrencyRate</th>
+    9:   <th>Amount</th>
+    10:   <th>Reference</th>
+    11:   <% @invoices.each do |invoice|%>
+    12:   <tr>
+    13:     <td><%= invoice.invoice_id%> </td>
+    14:     <td><%= invoice.invoice_number%></td>
+  app/views/invoices/index.html.erb:11:in `_app_views_invoices_index_html_erb__986504338_84102230'
+
+
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/_trace.erb (8.5ms)
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.6ms)
+  Rendered /home/chinna/.rvm/gems/ruby-1.9.3-p286/gems/actionpack-3.2.7/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (19.6ms)

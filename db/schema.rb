@@ -61,12 +61,12 @@ ActiveRecord::Schema.define(:version => 20121031031104) do
     t.date     "due_date"
     t.string   "status"
     t.string   "line_amount_types"
-    t.decimal  "sub_total"
-    t.decimal  "total_tax"
-    t.decimal  "total"
-    t.decimal  "amount_due"
-    t.decimal  "amount_paid"
-    t.decimal  "amount_credited"
+    t.decimal  "sub_total",          :precision => 10, :scale => 0
+    t.decimal  "total_tax",          :precision => 10, :scale => 0
+    t.decimal  "total",              :precision => 10, :scale => 0
+    t.decimal  "amount_due",         :precision => 10, :scale => 0
+    t.decimal  "amount_paid",        :precision => 10, :scale => 0
+    t.decimal  "amount_credited",    :precision => 10, :scale => 0
     t.datetime "updated_date_utc"
     t.string   "currency_code"
     t.datetime "fully_paid_on_date"
@@ -78,8 +78,8 @@ ActiveRecord::Schema.define(:version => 20121031031104) do
     t.string   "account_id"
     t.string   "payment_id"
     t.date     "date"
-    t.decimal  "amount"
-    t.decimal  "currency_rate"
+    t.decimal  "amount",           :precision => 10, :scale => 0
+    t.decimal  "currency_rate",    :precision => 10, :scale => 0
     t.string   "payment_type"
     t.string   "status"
     t.string   "reference"
