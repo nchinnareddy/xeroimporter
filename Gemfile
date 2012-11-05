@@ -5,7 +5,8 @@ gem 'rails', '3.2.7'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'pg'
+#gem 'pg'
+gem 'mysql2', '0.2.7'
 gem 'devise'
 gem 'xeroizer', '2.15.1'
 
